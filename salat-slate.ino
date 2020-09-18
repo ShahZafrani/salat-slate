@@ -17,7 +17,7 @@ GxEPD2_BW<GxEPD2_750, MAX_HEIGHT(GxEPD2_750)> display(GxEPD2_750(/*CS=10*/ SS, /
 #endif
 #if defined(ESP32)
 //GxEPD2_BW<GxEPD2_750, GxEPD2_750::HEIGHT> display(GxEPD2_750(/*CS=5*/ 15, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // inland esp32dev
-GxEPD2_BW<GxEPD2_750, GxEPD2_750::HEIGHT> display(GxEPD2_750(/*CS=5*/ 15, /*DC=*/ 12, /*RST=*/ 27, /*BUSY=*/ 4)); // adafruit huzzah32
+GxEPD2_BW<GxEPD2_750, GxEPD2_750::HEIGHT> display(GxEPD2_750(/*CS=5*/ 21, /*DC=*/ 17, /*RST=*/ 27, /*BUSY=*/ 32)); // adafruit huzzah32
 //GxEPD2_BW<GxEPD2_750_T7, GxEPD2_750_T7::HEIGHT> display(GxEPD2_750_T7(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEW075T7 800x480
 #endif
 //#include <Fonts/FreeMono9pt7b.h>
@@ -106,6 +106,7 @@ void setup(void) {
   Serial.println(fp);
 
   readFile(SD, fp, t.mday);
+  writeToDisplay();
   
 }
 void readFile(fs::FS &fs, const char * path, int day){
@@ -203,17 +204,14 @@ String getFilePath(int year, int month, String city) {
   return fp;
 }
 
-void loop(void) {
+void writeToDisplay() {
   display.setFullWindow();
-  
   display.fillScreen(GxEPD_WHITE);  // Clear previous graphics to start over to print new things.
   display.firstPage();  // Tell the graphics class to use paged drawing mode
 
-    do
+  do
   {
     // Put everything you want to print in this screen:
-    
-    
     display.fillScreen(GxEPD_WHITE);  // Clear previous graphics to start over to print new things.
     // Print text - "Hello World!":
     display.setTextColor(GxEPD_BLACK);  // Set color for text
@@ -244,5 +242,9 @@ void loop(void) {
   while (display.nextPage());
   
   display.hibernate(); 
+}
+
+void loop(void) {
+  
   for(;;); // Don't proceed, loop forever
-  }
+}
